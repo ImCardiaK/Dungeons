@@ -1,0 +1,26 @@
+name: CompanionPermission
+version: '${project.version}'
+main: fr.companion.dungeons.permission.CompanionPermissionPlugin
+api-version: '26.2'
+depend: [CompanionCore]
+description: Persistent groups and player permissions for Companion Dungeons.
+commands:
+  companionpermission:
+    description: Show permission administration help.
+    usage: /companionpermission
+    aliases: [cpermission, cperms]
+    permission: companionpermission.admin
+  companionuser:
+    description: Manage a player's group and permission nodes.
+    usage: /companionuser <player> <info|group|permission> ...
+    aliases: [cuser]
+    permission: companionpermission.admin
+  companiongroup:
+    description: Manage groups, inheritance, permissions and display text.
+    usage: /companiongroup <list|create|delete|group> ...
+    aliases: [cgroup]
+    permission: companionpermission.admin
+permissions:
+  companionpermission.admin:
+    description: Manage CompanionPermission.
+    default: op
