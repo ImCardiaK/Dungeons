@@ -1,0 +1,6 @@
+schema-version: 1
+id: coins
+name: Coins
+symbol: '$'
+scale: 2
+payments-enabled: true

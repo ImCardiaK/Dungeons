@@ -1,0 +1,29 @@
+name: CompanionEconomy
+version: '${project.version}'
+main: fr.companion.dungeons.economy.CompanionEconomyPlugin
+api-version: '26.2'
+depend: [CompanionCore]
+description: File-defined multi-currency economy for Companion Dungeons.
+commands:
+  balance:
+    description: View a balance.
+    usage: /balance [currency] [player]
+    aliases: [bal, money]
+    permission: companioneconomy.balance
+  pay:
+    description: Pay another player.
+    usage: /pay <player> <currency> <amount>
+    permission: companioneconomy.pay
+  economy:
+    description: Manage currencies and balances.
+    usage: /economy <list|reload|give|take|set|total>
+    permission: companioneconomy.admin
+permissions:
+  companioneconomy.balance:
+    default: true
+  companioneconomy.pay:
+    default: true
+  companioneconomy.balance.others:
+    default: op
+  companioneconomy.admin:
+    default: op

@@ -1,0 +1,6 @@
+name: CompanionCore
+version: '${project.version}'
+main: fr.companion.dungeons.core.CompanionCorePlugin
+api-version: '26.2'
+load: STARTUP
+description: Shared service API for Companion Dungeons plugins.
