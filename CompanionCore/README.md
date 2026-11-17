@@ -4,9 +4,9 @@ Fresh shared library for Companion Dungeons plugins on Paper 26.2 and Java 25. I
 
 ## Build and installation
 
-Run `mvn -DskipTests package` in this directory. The artifact is `target/CompanionCore-1.0.0.jar`. Copy it into the server's `plugins` directory and restart the server. Paper provides the API at runtime; it is not bundled in this jar.
+Run `mvn -DskipTests package` in this directory. The artifact is `target/CompanionCore-2.0.0.jar`. Copy it into the server's `plugins` directory and restart the server. Paper provides the API at runtime; it is not bundled in this jar.
 
-To compile a dependent plugin, add `fr.companion.dungeons:companioncore:1.0.0` with Maven `provided` scope. Run `mvn install` here first so it resolves locally. Declare `depend: [CompanionCore]` in the dependent plugin's `plugin.yml`.
+To compile a dependent plugin, add `fr.companionproject:companioncore:2.0.0` with Maven `provided` scope. Run `mvn install` here first so it resolves locally. Declare `depend: [CompanionCore]` in the dependent plugin's `plugin.yml`.
 
 ## Integration API
 
@@ -26,7 +26,7 @@ The registry is deliberately small. Add shared scheduling, command, configuratio
 
 ## Compatibility
 
-This is a new `1.0.0` API in `fr.companion.dungeons.core`. It is not binary compatible with the earlier `fr.companion.core` library. Install only one plugin named `CompanionCore` on a server; plugins built against the earlier library require migration before using this one.
+This is a new `2.0.0` API in `fr.companionproject.core`. It is not binary compatible with the earlier `fr.companion.core` library. Install only one plugin named `CompanionCore` on a server; plugins built against the earlier library require migration before using this one.
 
 ## Project layout
 
@@ -34,3 +34,9 @@ This is a new `1.0.0` API in `fr.companion.dungeons.core`. It is not binary comp
 - `service`: registry implementation.
 - `listener`: owner lifecycle cleanup.
 - Root package: plugin bootstrap.
+
+## Migration to 2.0.0
+
+The Java namespace and Maven group are now `fr.companionproject`. Install CompanionCore, CompanionEconomy and CompanionPermission 2.0.0 together; remove their previous JARs first. Recompile external integrations against the new packages. Plugin names, command permissions and stored data paths remain compatible. Back up plugin data before upgrading.
+
+Persistence now keeps only the latest waiting snapshot while a write is active. Replaced submissions complete after the replacement is written. Shutdown drains accepted writes. Permission YAML serialization runs on the storage worker using immutable snapshots.

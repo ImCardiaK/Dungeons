@@ -1,6 +1,6 @@
 # CompanionEconomy
 
-Multi-currency economy for Paper 26.2, Java 25, and CompanionCore 1.0.0. Each currency is deployed by placing a YAML file in `plugins/CompanionEconomy/currencies/` and running `/economy reload`. The first startup creates `coins.yml` only if the directory contains no currency definitions. Each definition has `schema-version: 1`, a unique lowercase `id` matching its filename, a display `name`, a `symbol`, `scale` from 0 to 8, and `payments-enabled`. For example:
+Multi-currency economy for Paper 26.2, Java 25, and CompanionCore 2.0.0. Each currency is deployed by placing a YAML file in `plugins/CompanionEconomy/currencies/` and running `/economy reload`. The first startup creates `coins.yml` only if the directory contains no currency definitions. Each definition has `schema-version: 1`, a unique lowercase `id` matching its filename, a display `name`, a `symbol`, `scale` from 0 to 8, and `payments-enabled`. For example:
 
 ```yaml
 schema-version: 1
@@ -13,7 +13,7 @@ payments-enabled: true
 
 Save that as `currencies/gems.yml`. A reload validates the complete set before publishing it; a bad file leaves the current currencies active. Reducing a currency's scale is refused while stored balances have finer precision. Removing a definition makes its balances unavailable until the same ID is deployed again.
 
-Build with Maven: `mvn -DskipTests package`. The jar is `target/CompanionEconomy-1.0.0.jar`. Install it beside CompanionCore on the Paper server. The Paper and CompanionCore dependencies are `provided`, not bundled. No Vault integration is included.
+Build with Maven: `mvn -DskipTests package`. The jar is `target/CompanionEconomy-2.0.0.jar`. Install it beside CompanionCore on the Paper server. The Paper and CompanionCore dependencies are `provided`, not bundled. No Vault integration is included.
 
 ## Commands
 
@@ -33,6 +33,12 @@ Default permissions: balance and pay are available to players; others and admin 
 
 ## Plugin API
 
-Other plugins declare `depend: [CompanionCore, CompanionEconomy]` and compile with `fr.companion.dungeons:companioneconomy:1.0.0` in `provided` scope. After enabling, obtain `CoreServices` from Bukkit's services manager, then `find(EconomyService.class)`. All economy calls belong on the main server thread. `deposit`, `withdraw`, `setBalance`, and `transfer` return `TransactionResult`; check it before granting a purchase or reward.
+Other plugins declare `depend: [CompanionCore, CompanionEconomy]` and compile with `fr.companionproject:companioneconomy:2.0.0` in `provided` scope. After enabling, obtain `CoreServices` from Bukkit's services manager, then `find(EconomyService.class)`. All economy calls belong on the main server thread. `deposit`, `withdraw`, `setBalance`, and `transfer` return `TransactionResult`; check it before granting a purchase or reward.
 
 Source layout: `api` public contract, `model` values, `registry` currency definitions, `service` account rules and messages, `database/local` YAML snapshots, `command` player/admin presentation, and the root bootstrap. This project has no source or runtime link to the earlier CompanionMinecraft plugins.
+
+## Migration to 2.0.0
+
+The Java namespace and Maven group are now `fr.companionproject`. Install CompanionCore, CompanionEconomy and CompanionPermission 2.0.0 together; remove their previous JARs first. Recompile external integrations against the new packages. Plugin names, command permissions and stored data paths remain compatible. Back up plugin data before upgrading.
+
+Persistence now keeps only the latest waiting snapshot while a write is active. Replaced submissions complete after the replacement is written. Shutdown drains accepted writes. Permission YAML serialization runs on the storage worker using immutable snapshots.

@@ -1,10 +1,10 @@
 # CompanionPermission
 
 New standalone permission plugin for Companion Dungeons, targeting Paper 26.2 and Java 25.
-Requires the Dungeons CompanionCore 1.0.0. It has no dependency on the old CompanionPermissions project.
+Requires the Dungeons CompanionCore 2.0.0. It has no dependency on the old CompanionPermissions project.
 
 Build with `mvn -DskipTests package` after installing CompanionCore into the local Maven repository.
-Artifact: `target/CompanionPermission-1.0.0.jar`.
+Artifact: `target/CompanionPermission-2.0.0.jar`.
 
 All commands require `companionpermission.admin` (operator by default).
 
@@ -46,6 +46,12 @@ the in-memory change was applied and its disk write queued.
 Other plugins compile against this artifact in provided scope and obtain `PermissionApi` through Dungeons
 `CoreServices.find(PermissionApi.class)`. Its queries return immutable snapshots and support asynchronous readers.
 
-This is a new 1.0.0 API and storage format. Old `CompanionPermissions` data and permission nodes are not imported.
+This is a new 2.0.0 API and storage format. Old `CompanionPermissions` data and permission nodes are not imported.
 Recreate groups using the commands and use `companionpermission.admin` for administration. Run one permission
 manager per server. The original project is only a functional reference and remains untouched.
+
+## Migration to 2.0.0
+
+The Java namespace and Maven group are now `fr.companionproject`. Install CompanionCore, CompanionEconomy and CompanionPermission 2.0.0 together; remove their previous JARs first. Recompile external integrations against the new packages. Plugin names, command permissions and stored data paths remain compatible. Back up plugin data before upgrading.
+
+Persistence now keeps only the latest waiting snapshot while a write is active. Replaced submissions complete after the replacement is written. Shutdown drains accepted writes. Permission YAML serialization runs on the storage worker using immutable snapshots.

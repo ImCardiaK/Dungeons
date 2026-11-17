@@ -1,6 +1,6 @@
 name: CompanionEconomy
 version: '${project.version}'
-main: fr.companion.dungeons.economy.CompanionEconomyPlugin
+main: fr.companionproject.economy.CompanionEconomyPlugin
 api-version: '26.2'
 depend: [CompanionCore]
 description: File-defined multi-currency economy for Companion Dungeons.
